@@ -53,20 +53,20 @@ const waitingOnVerification = ref(false)
 onMounted(() => {
     if(localStorage.getItem('token')) {
         router.push({
-            name:'index'
+            name:'landing'
         })
     }
 })
 
-const formattedCredentials = computed(() => {
+const formattedCredentials = () => {
     return {
         phone: credentials.phone.replaceAll(' ',''),
         login_code: credentials.login_code
     }
-})
+}
 
 const handleLogin = () => {
-    axios.post('http://ride-share-app.test/api/login', formattedCredentials)
+    axios.post('http://ride-share-app.test/api/login', formattedCredentials())
     .then((response) => {
         console.log(response.data)
         waitingOnVerification.value = true
@@ -78,12 +78,12 @@ const handleLogin = () => {
 }
 
 const handleVerification = () => {
-    axios.post('http://ride-share-app.test/api/login/verify', formattedCredentials)
+    axios.post('http://ride-share-app.test/api/login/verify', formattedCredentials())
     .then((response) => {
         console.log(response.data) //auth token
         localStorage.setItem('token', response.data)
         router.push({
-            name:'index' // continue from 1:55:32
+            name:'landing'
         })
     })
     .catch((error) => {
@@ -92,8 +92,6 @@ const handleVerification = () => {
     })
 }
 </script>
-
-
 <style>
 
 </style>
